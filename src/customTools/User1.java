@@ -1,10 +1,7 @@
 package customTools;
 
 import java.io.Serializable;
-
 import javax.persistence.*;
-
-import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -18,18 +15,18 @@ public class User1 implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-
-	@SequenceGenerator(name="USER1_USERID_GENERATOR" , sequenceName="USER1_SEQ",  allocationSize = 1, initialValue = 1, schema="TESTDB")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="USER1_USERID_GENERATOR")
+	@SequenceGenerator(name="USER1_SEQ" , sequenceName="USER1_SEQ",allocationSize = 1, initialValue = 1, schema="TESTDB" )
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="USER1_SEQ")
 	@Column(name="USER_ID")
 	private long userId;
-
-	private BigDecimal birthyear;
 
 	private String email;
 
 	@Column(name="FIRST_NAME")
 	private String firstName;
+
+	@Column(name="JOIN_DATE")
+	private String joinDate;
 
 	@Column(name="LAST_NAME")
 	private String lastName;
@@ -51,14 +48,6 @@ public class User1 implements Serializable {
 		this.userId = userId;
 	}
 
-	public BigDecimal getBirthyear() {
-		return this.birthyear;
-	}
-
-	public void setBirthyear(BigDecimal birthyear) {
-		this.birthyear = birthyear;
-	}
-
 	public String getEmail() {
 		return this.email;
 	}
@@ -73,6 +62,14 @@ public class User1 implements Serializable {
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
+	}
+
+	public String getJoinDate() {
+		return this.joinDate;
+	}
+
+	public void setJoinDate(String joinDate) {
+		this.joinDate = joinDate;
 	}
 
 	public String getLastName() {

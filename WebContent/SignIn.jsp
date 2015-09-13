@@ -43,7 +43,7 @@
 				<input type="password" class="form-control" placeholder="ex. 12345" name="loginpassword" required> </input><br>
 		
 				${Sign_up}<br>
-				<div class ="col-sm-4 col-sm-offset-3">
+				<div class ="col-sm-5 col-sm-offset-3">
 				    <button type="submit"  value = "submit" class= "button btn-primary form-control">Sign In</button><br>
 				</div>
 			</form>

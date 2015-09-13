@@ -37,7 +37,7 @@ Email:
 <input type="text" class="form-control" placeholder= "ex. email@domain.com" name="email" required></input><br>
 
 passwprd:
-<input type="number"  class="form-control" placeholder= "ex. 55555" name="password" required></input><br>  
+<input type="password"  class="form-control"  name="password" required></input><br>  
 
 
 

@@ -5,65 +5,45 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+ <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.min.css" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" />
+<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 
-<!-- jQuery library -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-
-<!-- Latest compiled JavaScript -->
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
-<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.js"></script>
-<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"></script>
-<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/additional-methods.js"></script>
-<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/additional-methods.min.js"></script>
-<title>Comments area</title>
-<style>h1{background: black; text:white}</style>
-<style>
-img{
-    position: relative;
-    width: 100px;
-    height: 100px;
-    float: right;
-    border: 3px solid #8AC007;
-
-}
-
-p.navbar-text{
-position: relative;
-float: right;
-right: 0px;
-}
-
-</style>
+<title></title>
 
 </head>
-<body background="http://www.freewallpaperfullhd.com/wp-content/uploads/2015/02/Nature-Wallpaper-HD-1920x1080.jpg">
+<body >
 <nav class="navbar navbar-default" >
 	<ul class="nav navbar-nav navbar-left">
 	   <li role="presentation" >Welcome <b>${sessionScope.User.getFirstName()} ${sessionScope.User.getLastName()} </b></li>
 	   <c:choose>
 	   <c:when test="${sessionScope.User.getFirstName() != ('Customer')}">   
-	      <li role="presentation"><a href="/Shopping_cart/My_Profile"><span class="glyphicon glyphicon-user"></span>Profile</a></li>
+	      <li role="presentation"><a href="/todolist/My_Profile"><span class="glyphicon glyphicon-user"></span>Profile</a></li>
 	   </c:when>
 	   </c:choose>
 	   
-
-		  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-		    ToDoList
-		    <span class="caret"></span>
-		  </button>
-		  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-		    <li><a href="#">Add to do list</a></li>
-		    <li><a href="#">Edit to do list</a></li>
-		    <li><a href="#">Delete to do list</a></li>
-
-		  </ul>
-
 	   
+	  <li role="presentation" class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown"  role="button">
+         To-Do List <span class="caret"></span>
+         </a>
+          <ul class="dropdown-menu">
+           <li><a href="/ToDoList/Show">Show to-do list</a></li>
+            <li><a href="/ToDoList/Addlist">Add to-do list</a></li>
+            <li><a href="/ToDoList/Edit">Edit to-do list</a></li>
+            <li><a href="/ToDoList/Remove">Remove to-do list</a></li>
+         </ul>
+         
+         </li>
+   
 	</ul>
+	
 	<ul class="nav navbar-nav navbar-right">
 	<c:choose>
 	<c:when test="${sessionScope.User.getFirstName() == ('Customer')}">
@@ -77,6 +57,5 @@ right: 0px;
 	 
     </ul>
 </nav>
-
 </body>
 </html>

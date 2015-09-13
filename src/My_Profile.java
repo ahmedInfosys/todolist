@@ -14,7 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.sun.xml.internal.ws.api.message.Packet.Status;
+
 import customTools.DBUtil;
+import customTools.Todolist;
 import customTools.User1;
 
 
@@ -35,7 +38,7 @@ public class My_Profile extends HttpServlet {
     			String  invalid = "", create_an_account = "";
 
     			String  Page = "";
-    	        long ID;
+    	        User1 logged_user = new User1();
     			
     			SimpleDateFormat  sdf = new SimpleDateFormat("E MM/dd/yyyy hh:mm a");
     			
@@ -49,6 +52,7 @@ public class My_Profile extends HttpServlet {
 //    				DBUtil.addToDB(user);
 //    				
 //    				session.setAttribute("User", user);
+//    				logged_user = user;
 //    			}
     			
     			if(request.getParameter("password") != null){
@@ -64,7 +68,7 @@ public class My_Profile extends HttpServlet {
    
     				if(DBUtil.createQuery(qString, User1.class).setParameter(1,Email).getResultList().size() > 0){
     					Page = "/SignUp.jsp";
-    					String Already_Exists = "The user " + Email + " is already exists, please <a href=\"/Shopping_cart/SignIn.jsp\"> sign in.</a>" ;
+    					String Already_Exists = "The user " + Email + " is already exists, please <a href=\"/todolist/SignIn.jsp\"> sign in.</a>" ;
     					request.setAttribute("alreadyin", Already_Exists);
     				}else{
     					
@@ -77,12 +81,15 @@ public class My_Profile extends HttpServlet {
     					user.setLastName(LastName);
     					user.setEmail(Email);
     					user.setPassword(password);
+    					user.setJoinDate(sdf.format(now));
     					DBUtil.addToDB(user);
     					
     					session = request.getSession();
     		        	session.setAttribute("User", user);
     		        	DBUtil db_util = new DBUtil();
     					session.setAttribute("db_util", db_util);
+    					logged_user = user;
+    					
 
     				}
     			}else if (request.getParameter("loginpassword") != null){
@@ -117,7 +124,7 @@ public class My_Profile extends HttpServlet {
     					System.out.println("Invalid");
     					Page = "/SignIn.jsp";
     					
-    					invalid = "Invalid Email or/and password";
+    					invalid = "Invalid Email or/and password, please try again.";
     					create_an_account = "<a href=\"/ToDoList/SignUp.jsp\">Create an account</a>";
     					request.setAttribute("invalid_user", invalid);
     					request.setAttribute("Sign_up", create_an_account);
@@ -128,26 +135,44 @@ public class My_Profile extends HttpServlet {
     		        	session.setAttribute("User", single_user);/////change
     		
     		        	Page = "/Profile.jsp";
- 
+    		        	logged_user = single_user;
     				}
     				
     				
-    			}else {
+    			}else{
     				
-    				session = request.getSession(true);
-
-    				
-		        	User1 user = (User1) session.getAttribute("User");/////change
-		        	//session.setAttribute("", arg1);
+    				session = request.getSession(true);	
+		        	User1 user = (User1) session.getAttribute("User");
+		        	
 		        	Page = "/Profile.jsp";
+		        	logged_user = user;
 
     			}
 
-    	    	
-    	  
+    	    	/// list finished items
 
-  
-    	    	  getServletContext().getRequestDispatcher(Page).forward(request,response);
+    			String qString = "select t from Todolist t where t.user1 = ?1 and t.status = ?2";
+    			TypedQuery<Todolist> q3 = DBUtil.createQuery(qString, Todolist.class);
+    			q3.setParameter(1,logged_user);
+    			q3.setParameter(2, "Completed");
+    			List<Todolist> my_finished_list =  q3.getResultList();
+		        
+    			
+    			//list unfinished items
+
+    			
+    			
+    			qString =  "select t from Todolist t where t.user1 = ?1 and t.status = ?2";
+    			q3 = DBUtil.createQuery(qString, Todolist.class);
+    			q3.setParameter(1,logged_user);
+    			q3.setParameter(2, "On hold");
+    			List<Todolist> my_required_list = q3.getResultList();
+    			
+    			session = request.getSession();	
+    			session.setAttribute("my_finished_list", my_finished_list);
+    			session.setAttribute("my_required_list", my_required_list);
+    			
+    	    	getServletContext().getRequestDispatcher(Page).forward(request,response);
     	    	 
     		}
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

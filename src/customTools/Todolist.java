@@ -2,8 +2,6 @@ package customTools;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.math.BigDecimal;
-import java.util.List;
 
 
 /**
@@ -16,8 +14,8 @@ public class Todolist implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="TODOLIST_ID_GENERATOR", sequenceName="TODOLIST_SEQ",allocationSize = 1, initialValue = 1, schema="TESTDB" )
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="TODOLIST_ID_GENERATOR")
+	@SequenceGenerator(name="TODOLIST_SEQ" , sequenceName="TODOLIST_SEQ",allocationSize = 1, initialValue = 1, schema="TESTDB" )
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="TODOLIST_SEQ")
 	private long id;
 
 	@Column(name="DATE_COMPLETED")
@@ -30,13 +28,11 @@ public class Todolist implements Serializable {
 
 	private String proirity;
 
-	//bi-directional many-to-one association to Status
-	@OneToMany(mappedBy="todolist")
-	private List<Status> statuses;
+	private String status;
 
 	//bi-directional many-to-one association to User1
 	@ManyToOne
-	@JoinColumn(name="USERID",insertable=false, updatable=false)
+	@JoinColumn(name="USER_ID")
 	private User1 user1;
 
 	public Todolist() {
@@ -82,26 +78,12 @@ public class Todolist implements Serializable {
 		this.proirity = proirity;
 	}
 
-	public List<Status> getStatuses() {
-		return this.statuses;
+	public String getStatus() {
+		return this.status;
 	}
 
-	public void setStatuses(List<Status> statuses) {
-		this.statuses = statuses;
-	}
-
-	public Status addStatus(Status status) {
-		getStatuses().add(status);
-		status.setTodolist(this);
-
-		return status;
-	}
-
-	public Status removeStatus(Status status) {
-		getStatuses().remove(status);
-		status.setTodolist(null);
-
-		return status;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public User1 getUser1() {
